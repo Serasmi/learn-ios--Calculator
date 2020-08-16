@@ -8,18 +8,10 @@
 
 import SwiftUI
 
-enum Button {
-    // numbers
-    case zero, one, two, three, four
-    case five, six, seven, eight, nine
-    // arithmetic operations
-    case div, mult, sub, sum, equals
-    // other buttons
-    case clear, plusMinus, percent, decimal
-}
-
 struct ContentView: View {
-    let buttons: [[Button]] = [
+    let spacing: CGFloat = 12
+
+    let buttons: [[CalcButton]] = [
         [.clear, .plusMinus, .percent, .div],
         [.seven, .eight, .nine, .mult],
         [.four, .five, .six, .sub],
@@ -28,7 +20,32 @@ struct ContentView: View {
     ]
 
     var body: some View {
-        Text("Hello, World!")
+        ZStack(alignment: .bottom) {
+            Color.black
+                .edgesIgnoringSafeArea(.all)
+
+            VStack(spacing: spacing) {
+                HStack {
+                    Spacer()
+
+                    Text("0")
+                        .font(.system(size: 64))
+                        .foregroundColor(Color(.white))
+                }
+                .padding(.horizontal, spacing)
+
+                ForEach(self.buttons, id: \.self) { row in
+                    HStack(spacing: self.spacing) {
+                        ForEach(row, id: \.self) { button in
+                            CalcButtonView(button: button, spacing: self.spacing) {
+                                print("Tapped")
+                            }
+                        }
+                    }
+                }
+            }
+            .padding(.bottom, spacing)
+        }
     }
 }
 
