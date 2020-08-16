@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var env: GlobalEnvironment
+
     let spacing: CGFloat = 12
 
     let buttons: [[CalcButton]] = [
@@ -28,7 +30,7 @@ struct ContentView: View {
                 HStack {
                     Spacer()
 
-                    Text("0")
+                    Text(env.display)
                         .font(.system(size: 64))
                         .foregroundColor(Color(.white))
                 }
@@ -38,7 +40,7 @@ struct ContentView: View {
                     HStack(spacing: self.spacing) {
                         ForEach(row, id: \.self) { button in
                             CalcButtonView(button: button, spacing: self.spacing) {
-                                print("Tapped")
+                                self.env.tapButton(button: button)
                             }
                         }
                     }
@@ -51,6 +53,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(GlobalEnvironment())
     }
 }
